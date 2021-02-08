@@ -9,19 +9,60 @@ module.exports = function transform(arr) {
 
 	for (let i = 0; i < result.length; i++) {
 		if (result[i] == '--discard-next') {
-			result.splice(i, 2);
+			if (i == result.lenght - 1) {
+				result.splice(i, 1)
+			} else {
+				result.splice(i + 1, 1);
+			}
 		}
 
 		if (result[i] == '--discard-prev') {
-			result.splice(i - 1, 2);
+			if (i == 0) {
+				result.splice(i, 1)
+			} else {
+				result.splice(i - 1, 1);
+			}
 		}
 
 		if (result[i] == '--double-next') {
-			result.splice(i, 1, result[i + 1] );
+			if (i + 1 !== result.length) {
+				result.splice(i, 1, result[i + 1]);
+			} else {
+				result.splice(i, 1);
+			}
 		}
 
 		if (result[i] == '--double-prev') {
-			result.splice(i, 1, result[i - 1] );
+			if (i == 0) {
+				result.splice(i, 1)
+			} else {
+				result.splice(i, 1, result[i - 1]);
+			}
+		}
+	}
+
+	for (let i = 0; i < result.length; i++) {
+		while (result[i] == '--discard-prev')
+		{
+			result.splice(i, 1)
+		}
+		while (result[i] == '--discard-next')
+		{
+			result.splice(i, 1)
+		}
+		while (result[i] == '--double-next')
+		{
+			result.splice(i, 1)
+		}
+		while (result[i] == '--double-prev')
+		{
+			result.splice(i, 1)
+		}
+	}
+
+	for (let i = 0; i < result.length; i++) {
+		while (result[i] == '--discard-prev') {
+			result.splice(i, 1)
 		}
 	}
 
