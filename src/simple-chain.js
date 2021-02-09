@@ -12,7 +12,7 @@ const chainMaker = {
 			value = ' ';
 		}
 		this.value = value;
-		chain = this.chain;
+		chain = this.chain,
 
 		chain.push(`( ${value} )`);
 		return this;
@@ -22,9 +22,12 @@ const chainMaker = {
     if (typeof (position) !== 'number' ||
 			position > this.chain.length ||
 			position == 0) {
+		this.chain = [];
+	  throw new Error("THROW");
+		}
 
-	throw new Error("THROW");
-}
+		chain = this.chain,
+
 		value = this.value;
 		for (let i = 0; i < this.chain.length; i++) {
 			if (position == i) {
@@ -35,12 +38,15 @@ const chainMaker = {
 	},
 
 	reverseChain() {
-		this.chain.reverse();
+		chain = this.chain,
+		chain.reverse();
 		return this;
 	},
 
-	finishChain() {
-		return this.chain.join('~~');
+	finishChain () {
+		let result = this.chain.join('~~');
+		this.chain = [];
+		return result;
 	}
 };
 
