@@ -11,8 +11,11 @@ const chainMaker = {
 		if (value === undefined){
 			value = ' ';
 		}
+		if (typeof(value) == 'function'){
+			value = 'function() {}';
+		}
 		this.value = value;
-		chain = this.chain,
+		chain = this.chain;
 
 		chain.push(`( ${value} )`);
 		return this;
@@ -27,8 +30,8 @@ const chainMaker = {
 		}
 
 		chain = this.chain,
-
 		value = this.value;
+
 		for (let i = 0; i < this.chain.length; i++) {
 			if (position == i) {
 				this.chain.splice(position - 1 , 1)
