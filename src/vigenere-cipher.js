@@ -10,45 +10,51 @@ class VigenereCipheringMachine {
 }
 
 	encrypt(message, key) {
+		this.result = [];
 		let needSym;
 		let arrKey = Array.from(key.toUpperCase());
-		let arrMessage = Array.from(message.toUpperCase().replace(/\s/g, ''));
-		let strMessage = message.toUpperCase().split('');
+		let arrKeynew = [];
+		let arrMessage = Array.from(message.toUpperCase());
 
-		for (let i = 0; i < message.length; i++) {
-			arrKey.push(arrKey[i])
-		}
+		let copyMsg = message;
+		let strMessage = copyMsg.toUpperCase().replace(/\s/g, '');
 
-		for (let i = 0; i < message.length; i++){
-			if (this.alphabet.indexOf(strMessage[i]) !== -1) {
-        needSym = this.alphabet.indexOf(strMessage[i]) + this.alphabet.indexOf(arrKey[i]);
-				while (needSym > 25) {
-					needSym = needSym - 26;
-				}
-				this.result.push(this.alphabet[needSym])
-      } else {
-				this.result.push(strMessage[i]);
-
-				if (strMessage[i] == ' ') {
-					needSym = this.alphabet.indexOf(strMessage[i+1]) + this.alphabet.indexOf(arrKey[i]);
-				  while (needSym > 25) {
-					  needSym = needSym - 26;
-				  }
-					this.result.push(this.alphabet[needSym])
-				}
-
+		for (let i = 0; i < arrMessage.length; i++) {
+			if (i >= arrKey.length) {
+					arrKeynew.push(arrKey[i - Math.floor(i/arrKey.length) * arrKey.length])
+			} else {
+				arrKeynew.push(arrKey[i])
 			}
 		}
 
+		let needInd = 0;
+		let count = 0;
+
+		for (let i = 0; i <= arrMessage.length; i++){
+			count = this.result.filter((el) => el == " ").length;
+			if (this.alphabet.indexOf(arrMessage[i]) !== -1) {
+				if (this.result.includes(' ')) {
+					needInd = i - count;
+				} else {
+					needInd = i;
+				}
+				needSym = this.alphabet.indexOf(strMessage[needInd]) + this.alphabet.indexOf(arrKeynew[needInd]);
+					while (needSym > 25) {
+						needSym = needSym - 26;
+				}
+				this.result.push(this.alphabet[needSym]);
+			} else {
+				this.result.push(arrMessage[i]);
+			}
+		}
 		if (this.crypto == false) {
 			return this.result.reverse().join('')
 		}
-
-
 		return this.result.join('');
 	}
 
 	decrypt(message, key) {
+		this.result = [];
 		let needSym;
 		let arrKey = Array.from(key.toUpperCase());
 		let arrMessage = Array.from(message.toUpperCase())
